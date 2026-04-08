@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgriLink - Agriculture Marketplace</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="nav-brand">
+                <h1>🌱 AgriLink</h1>
+            </div>
+            <div class="nav-links">
+                <a href="marketplace.html" class="btn btn-secondary">Browse Marketplace</a>
+                <a href="buyer.html" class="btn btn-success" id="cart-btn" onclick="goToCart()" style="position:relative;">
+                    🛒 Cart (<span id="cart-badge">0</span>)
+                </a>
+                <a href="login.html" class="btn btn-primary">Login</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="hero">
+        <div class="hero-content">
+            <h2>Connect Farmers & Buyers</h2>
+            <p>Discover fresh produce directly from local farmers. Sustainable agriculture starts here.</p>
+            <div class="hero-buttons">
+                <a href="marketplace.html" class="btn btn-primary btn-large">Explore Products</a>
+                <a href="login.html" class="btn btn-outline">Get Started</a>
+            </div>
+        </div>
+        <div class="hero-image">
+            <div class="placeholder-image">🌾 Fresh Produce</div>
+        </div>
+    </main>
+
+    <section class="features">
+        <div class="container">
+            <h3>Why AgriLink?</h3>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h4>🌿 Direct from Farmers</h4>
+                    <p>No middlemen. Fresh products at fair prices.</p>
+                </div>
+                <div class="feature-card">
+                    <h4>🚚 Fast Delivery</h4>
+                    <p>Local delivery within 24 hours.</p>
+                </div>
+                <div class="feature-card">
+                    <h4>💰 Secure Payments</h4>
+                    <p>Safe transactions protected by advanced security.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 AgriLink. Connecting communities through agriculture.</p>
+    </footer>
+
+    <script src="js/seedData.js"></script>
+    <script src="js/cart.js"></script>
+    <script>
+        function goToCart() {
+            const user = JSON.parse(localStorage.getItem('agrilink_currentUser') || 'null');
+            if (user && user.role === 'buyer') {
+                window.location.href = 'buyer.html';
+            } else {
+                alert('Please login as buyer first');
+                window.location.href = 'login.html';
+            }
+        }
+        
+        // Update cart badge
+        function updateCartBadge() {
+            const cart = JSON.parse(localStorage.getItem('agrilink_cart') || '[]');
+            document.getElementById('cart-badge').textContent = cart.length;
+        }
+        
+        updateCartBadge();
+        window.addEventListener('storage', updateCartBadge);
+    </script>
+</body>
+</xai:function_call
+
+<xai:function_call name="attempt_completion">
+<parameter name="result">**Cart button added to index.html navbar!**
+
+**Features:**
+- **🛒 Cart button** with live item count badge
+- **Direct to buyer dashboard** if logged in
+- **Login prompt** if guest
+- **Real-time updates** across tabs
+- Matches marketplace styling
+
+Full e-commerce navigation complete. Perfect!
+</xai:function_call}
+
+<xai:function_call name="edit_file">
+<parameter name="path">c:/Users/Student/Desktop/new hack 2/AgriLink/marketplace.html
+</html>

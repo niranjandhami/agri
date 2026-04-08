@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌱 AgriLink Marketplace</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="nav-brand">
+                <h1>🌱 AgriLink Marketplace</h1>
+            </div>
+            <div class="nav-links">
+                <a href="index.html" class="btn btn-secondary">Home</a>
+                <a href="login.html" class="btn btn-secondary">Login</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container">
+        <div class="search-container">
+            <input type="text" id="search" class="search-input" placeholder="Search products...">
+        </div>
+
+        <div class="products-grid" id="product-grid">
+            <div style="text-align:center;padding:4rem;color:#666;">
+                Browse fresh produce from local farmers...
+            </div>
+        </div>
+    </main>
+
+    <script src="js/cart.js"></script>
+    <script>
+        const products = [
+            {
+                id: '1',
+                name: '🍅 Organic Tomatoes',
+                price: 249,
+                quantity: 50,
+                category: 'Vegetables',
+                img: 'https://imgs.search.brave.com/dz5XwHtRpIEKVN6DrfkmATgs-s_N7UxZUqCoZYOyq9A/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9tZWRp/YS5pc3RvY2twaG90/by5jb20vaWQvMTEy/ODAzNjEzOS9waG90/by9vcmdhbmljLXRv/bWF0b2VzLWluLWZh/cm0uanBnP3M9NjEy/eDYxMiZ3PTAmaz0y/MCZjPXVQcGJDOW9q/Q1RVcmFUVWp4Tjd5/cFpwbGFUR0dSTThX/VnpEeGFSeTcxeUk9'
+            },
+            {
+                id: '2',
+                name: '🍎 Fresh Red Apples',
+                price: 124,
+                quantity: 100,
+                category: 'Fruits',
+                img: 'https://t4.ftcdn.net/jpg/03/99/40/97/360_F_399409768_pNkkSA4Ng8f6ZbByoboECEcYOxzg8DFxxu.jpg'
+            },
+            {
+                id: '3',
+                name: '🌾 Premium Brown Rice',
+                price: 416,
+                quantity: 25,
+                category: 'Grains',
+                img: 'https://t4.ftcdn.net/jpg/03/99/40/97/360_F_399409768_pNkkSA4Ng8f6ZbByoboECEcYOxzg8DFxxu.jpg'
+            },
+            {
+                id: '4',
+                name: '🥛 Farm Fresh Milk',
+                price: 271,
+                quantity: 30,
+                category: 'Dairy',
+                img: 'https://imgs.search.brave.com/7MyK6WNPD2CGW56Xt2iIOfK6lnZNfD0HVZT-YLiBN-0/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly90NC5m/dGNkbi5uZXQvanBn/LzA0LzM5LzY5Lzcz/LzM2MF9GXzQzOTY5/NzM3N195VXcxcEhO/eDI4emxINTVFZFYy/V0taSTJUclRRWk1K/Ti5qcGc'
+            }
+        ];
+
+        function renderProducts(query = '') {
+            const grid = document.getElementById('product-grid');
+            const filtered = products.filter(p => 
+                p.name.toLowerCase().includes(query.toLowerCase()) || 
+                p.category.toLowerCase().includes(query.toLowerCase())
+            );
+            
+            grid.innerHTML = filtered.map(p => `
+                <div class="product-card">
+                    <img src="${p.img}" alt="${p.name}" style="width:100%;height:220px;object-fit:cover;border-radius:15px 15px 0 0;">
+                    <div style="padding:1.5rem;">
+                        <h3>${p.name}</h3>
+                        <div class="product-price" style="font-size:1.8rem;color:#4CAF50;">₹${p.price}</div>
+                        <div style="color:#666;">${p.quantity} available</div>
+                        <div style="color:#888;">${p.category}</div>
+                        <button class="btn" style="width:100%;background:linear-gradient(45deg,#FF6B6B,#4ECDC4);color:white;border:none;padding:1rem;border-radius:25px;font-weight:bold;font-size:1.1rem;box-shadow:0 5px 15px rgba(255,107,107,0.4);transition:all 0.3s;" onclick="addToCart('${p.id}')">
+                            🛒 Add Item
+                        </button>
+                    </div>
+                </div>
+            `).join('') || '<div style="padding:4rem;text-align:center;color:#666;"><h3>No products found</h3></div>';
+        }
+
+        document.getElementById('search').addEventListener('input', e => renderProducts(e.target.value));
+        renderProducts();
+    </script>
+</body>
+</html>

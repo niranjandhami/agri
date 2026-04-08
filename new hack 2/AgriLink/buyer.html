@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🛒 Cart & Orders - AgriLink</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="nav-brand">
+                <h1>🌱 AgriLink Cart</h1>
+            </div>
+            <div class="nav-links">
+                <a href="marketplace.html" class="btn btn-secondary">Continue Shopping</a>
+                <a href="index.html" class="btn btn-secondary logout-btn">Logout</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container">
+        <div class="dashboard">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3 id="cart-count">0</h3>
+                    <p>Items in Cart</p>
+                </div>
+                <div class="stat-card">
+                    <h3 id="total-price">₹0</h3>
+                    <p>To Pay</p>
+                </div>
+            </div>
+
+            <!-- Cart Section -->
+            <div class="card">
+                <h3>🛒 Your Cart</h3>
+                <div id="cart-list"></div>
+                <div style="padding:1rem;border-top:2px solid #eee;margin-top:1rem;">
+                    <div style="display:flex;justify-content:space-between;font-size:1.2rem;font-weight:bold;">
+                        <span>Total:</span>
+                        <span id="grand-total">₹0</span>
+                    </div>
+                    <button id="place-order-btn" class="btn btn-primary" style="width:100%;padding:1.2rem;font-size:1.1rem;margin-top:1rem;background:#4CAF50;" onclick="placeOrder()">
+                        ✅ Place Order
+                    </button>
+                </div>
+            </div>
+
+            <!-- Past Orders -->
+            <div class="card">
+                <h3>📋 Past Orders</h3>
+                <div id="past-orders-list">
+                    No previous orders
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        let cart = JSON.parse(localStorage.getItem('agrilink_cart') || '[]');
+        let pastOrders = JSON.parse(localStorage.getItem('agrilink_past_orders') || '[]');
+
+        function updateCart() {
+            const countEl = document.getElementById('cart-count');
+            const totalEl = document.getElementById('total-price');
+            const grandTotalEl = document.getElementById('grand-total');
+            const cartList = document.getElementById('cart-list');
+            const placeOrderBtn = document.getElementById('place-order-btn');
+            
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+
+            countEl.textContent = cart.length || 0;
+            totalEl.textContent = '₹' + total.toFixed(0);
+            grandTotalEl.textContent = '₹' + total.toFixed(0);
+
+            if (cart.length === 0) {
+                cartList.innerHTML = '<p style="text-align:center;color:#666;padding:2rem;">Your cart is empty. <a href="marketplace.html">Continue shopping</a></p>';
+                placeOrderBtn.style.display = 'none';
+            } else {
+                cartList.innerHTML = cart.map((item, index) => `
+                    <div style="display:flex;align-items:center;padding:1rem;border:1px solid #eee;border-radius:10px;margin-bottom:1rem;">
+                        <img src="${item.img || 'https://via.placeholder.com/80x80/4CAF50/fff?text=?'} " alt="${item.name}" style="width:80px;height:80px;object-fit:cover;border-radius:10px;margin-right:1rem;">
+                        <div style="flex:1;">
+                            <h4>${item.name}</h4>
+                            <p>₹${item.price} x <strong>${item.quantity}</strong> = ₹${(item.price * item.quantity).toFixed(0)}</p>
+                        </div>
+                        <div style="display:flex;align-items:center;gap:0.5rem;">
+                            <button onclick="updateQuantity(${index}, -1)" style="background:#ff4444;color:white;border:none;border-radius:50%;width:35px;height:35px;font-size:1.2rem;">-</button>
+                            <span style="font-weight:bold;min-width:30px;text-align:center;">${item.quantity}</span>
+                            <button onclick="updateQuantity(${index}, 1)" style="background:#4CAF50;color:white;border:none;border-radius:50%;width:35px;height:35px;font-size:1.2rem;">+</button>
+                            <button onclick="removeFromCart(${index})" style="background:#666;color:white;border:none;border-radius:50%;width:35px;height:35px;font-size:1rem;">×</button>
+                        </div>
+                    </div>
+                `).join('');
+                placeOrderBtn.style.display = 'block';
+            }
+        }
+
+        function updateQuantity(index, change) {
+            cart[index].quantity += change;
+            if (cart[index].quantity <= 0) {
+                cart.splice(index, 1);
+            }
+            localStorage.setItem('agrilink_cart', JSON.stringify(cart));
+            updateCart();
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            localStorage.setItem('agrilink_cart', JSON.stringify(cart));
+            updateCart();
+        }
+
+        function placeOrder() {
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const order = {
+                id: Date.now(),
+                items: [...cart],
+                total: total,
+                date: new Date().toLocaleString(),
+                status: 'confirmed'
+            };
+            pastOrders.unshift(order);
+            localStorage.setItem('agrilink_past_orders', JSON.stringify(pastOrders));
+            cart = [];
+            localStorage.setItem('agrilink_cart', '[]');
+            updateCart();
+            document.getElementById('past-orders-list').innerHTML = `<p style="color:#4CAF50;">✅ Order #${order.id} placed! Total: ₹${total.toFixed(0)}</p>`;
+        }
+
+        function updatePastOrders() {
+            const list = document.getElementById('past-orders-list');
+            if (pastOrders.length === 0) {
+                list.innerHTML = 'No previous orders';
+            } else {
+                list.innerHTML = pastOrders.slice(0,3).map(order => `
+                    <div style="padding:1rem;border:1px solid #ddd;border-radius:10px;margin-bottom:1rem;">
+                        <h4>Order #${order.id}</h4>
+                        <p>₹${order.total.toFixed(0)} • ${order.date}</p>
+                        <small>${order.items.length} items</small>
+                    </div>
+                `).join('');
+            }
+        }
+
+        // Initialize
+        updateCart();
+        updatePastOrders();
+        window.addEventListener('storage', updateCart);
+    </script>
+</body>
+</html>

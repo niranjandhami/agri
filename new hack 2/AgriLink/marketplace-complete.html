@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌱 AgriLink Marketplace - Products Visible!</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        .hero-products { grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 2rem; padding: 2rem 0; }
+        .product-image { height: 200px; object-fit: cover; border-radius: 15px; }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="nav-brand">
+                <h1>🌱 AgriLink Marketplace</h1>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container hero-products" id="products-container">
+        <!-- Products load here -->
+    </main>
+
+    <script>
+        const products = [
+            {
+                name: '🍅 Organic Tomatoes',
+                price: '$2.99/kg',
+                quantity: 50,
+                category: 'Vegetables',
+                image: 'https://imgs.search.brave.com/OhqBtppZ8wj0sjfhmBqW7ooWuTuvu1mXDP42ik332Yc/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9zdGF0/aWMudmVjdGVlenku/Y29tL3N5c3RlbS9y/ZXNvdXJjZXMvdGh1/bWJuYWlscy8wNDgv/OTYzLzU3My9zbWFs/bC9vcmdhbmljLWZv/b2QtaGFydmVzdC1y/aXBlLXJlZC10b21h/dG9lcy1saWUtb24t/dGFibGUtcGhvdG8u/anBn'
+            },
+            {
+                name: '🍎 Fresh Apples',
+                price: '$1.49/kg',
+                quantity: 100,
+                category: 'Fruits',
+                image: 'https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?w=400&h=300&fit=crop'
+            },
+            {
+                name: '🌾 Brown Rice',
+                price: '$4.99/kg',
+                quantity: 25,
+                category: 'Grains',
+                image: 'https://imgs.search.brave.com/ewIw_rMGNMzRCXS3G0qJb2lxkBBua7Vu1wXNwJ43Br8/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9tZWRp/YS5nZXR0eWltYWdl/cy5jb20vaWQvMTAz/NjE0ODUzNC9waG90/by9zb3ktc2F1Y2Ut/dGFzdGUtb2YtYnJv/d24tcmljZS1jbG9z/ZS11cC5qcGc_cz02/MTJ4NjEyJnc9MCZr/PTIwJmM9Tjc4aUdL/djZCa3FfR254X1NI/Y0Etc1NvTnpMNC1V/NHZ5Y3VlTnRSUC1i/UT0'
+            },
+            {
+                name: '🥛 Fresh Milk',
+                price: '$3.25/L',
+                quantity: 30,
+                category: 'Dairy',
+                image: 'https://imgs.search.brave.com/p9OK13UtBrLqgRPEDy9szt1UNrd77fVgfZOrHWYVzxc/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9nb25u/YW5lZWRtaWxrLmNv/bS93cC1jb250ZW50/L3VwbG9hZHMvMjAy/Mi8wNS9USEUtRkFD/VFMtQUJPVVQtSE9N/T0dFTklaRUQtTUlM/Sy5qcGc'
+            }
+        ];
+
+        function renderProducts() {
+            const container = document.getElementById('products-container');
+            container.innerHTML = products.map(product => `
+                <div class="product-card">
+                    <img src="${product.image}" alt="${product.name}" class="product-image">
+                    <div style="padding:1rem;">
+                        <h3>${product.name}</h3>
+                        <div class="product-price" style="font-size:1.5rem;">${product.price}</div>
+                        <div class="product-quantity">${product.quantity} available</div>
+                        <div style="color:#666;margin:0.5rem 0;">${product.category}</div>
+                        <button class="btn btn-primary" onclick="alert('Demo buy! Login: buyer@test.com/pass123')" style="width:100%;margin-top:1rem;">
+                            🛒 Buy Now
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Load immediately
+        renderProducts();
+    </script>
+
+    <footer style="margin-top:4rem;">
+        <p>✅ Products visible! Full AgriLink app ready.</p>
+    </footer>
+</body>
+</html>
